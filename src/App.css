@@ -1,8 +1,0 @@
-.app {
-  min-height: 100vh;
-  transition: all 0.3s ease;
-}
-
-.app.dark {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-}

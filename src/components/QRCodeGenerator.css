@@ -1,0 +1,339 @@
+.qrcode-generator {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 100px 70px;
+}
+
+.qrcode-container {
+  display: flex;
+  gap: 80px;
+  align-items: flex-start;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.qrcode-input-section {
+  flex: 1;
+  max-width: 500px;
+}
+
+.qrcode-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.4em;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.qrcode-subtitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.2em;
+  margin-bottom: 40px;
+  font-style: italic;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.qrcode-input {
+  width: 100%;
+  padding: 18px 25px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0;
+  outline: none;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+}
+
+.qrcode-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.qrcode-input:focus {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.generate-button {
+  width: 100%;
+  padding: 18px 25px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0;
+  cursor: pointer;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.generate-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.generate-button:hover::before {
+  left: 100%;
+}
+
+.generate-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+.generate-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.error-message {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(255, 100, 100, 0.8);
+  letter-spacing: 0.1em;
+  margin-top: 10px;
+}
+
+.qrcode-display-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.qrcode-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.qrcode-image-wrapper {
+  position: relative;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 0 60px rgba(0, 0, 0, 0.8),
+    0 0 100px rgba(0, 0, 0, 0.6),
+    0 0 140px rgba(0, 0, 0, 0.4);
+  animation: shadowPulse 6s ease-in-out infinite;
+}
+
+@keyframes shadowPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 60px rgba(0, 0, 0, 0.8),
+      0 0 100px rgba(0, 0, 0, 0.6),
+      0 0 140px rgba(0, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 0 80px rgba(0, 0, 0, 0.9),
+      0 0 120px rgba(0, 0, 0, 0.7),
+      0 0 160px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.qrcode-image {
+  width: 300px;
+  height: 300px;
+  display: block;
+  filter: blur(0);
+  transition: filter 0.3s ease;
+}
+
+.qrcode-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  pointer-events: none;
+}
+
+.download-button {
+  padding: 15px 40px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0;
+  cursor: pointer;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.download-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.download-button:hover::before {
+  left: 100%;
+}
+
+.download-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.qrcode-placeholder {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 0 60px rgba(0, 0, 0, 0.8),
+    0 0 100px rgba(0, 0, 0, 0.6),
+    0 0 140px rgba(0, 0, 0, 0.4);
+  animation: shadowPulse 6s ease-in-out infinite;
+}
+
+.placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  opacity: 0.5;
+}
+
+.placeholder-icon {
+  width: 80px;
+  height: 80px;
+  color: rgba(255, 255, 255, 0.3);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.placeholder-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1024px) {
+  .qrcode-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+  }
+
+  .qrcode-input-section {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .qrcode-display-section {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .qrcode-generator {
+    padding: 80px 30px;
+  }
+
+  .qrcode-title {
+    font-size: 12px;
+  }
+
+  .qrcode-subtitle {
+    font-size: 14px;
+  }
+
+  .qrcode-image {
+    width: 250px;
+    height: 250px;
+  }
+
+  .qrcode-image-wrapper {
+    padding: 20px;
+  }
+}
